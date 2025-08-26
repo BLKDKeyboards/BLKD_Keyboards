@@ -1,0 +1,71 @@
+<title>BLKD Keyboards</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flowing Wave Stripes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #111; /* fallback */
+    }
+    .bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <svg class="bg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+    <defs>
+      <!-- Thicker stripes -->
+      <pattern id="stripes" width="160" height="160" patternUnits="userSpaceOnUse"
+               patternTransform="rotate(25)">
+        <rect width="160" height="160" fill="#141414" />
+        <rect width="80" height="160" fill="#1b1b1b" />
+        <rect x="80" width="80" height="160" fill="#2a2a2a" opacity="0.85" />
+      </pattern>
+
+      <!-- Warp filter for wavy distortion -->
+      <filter id="warp">
+        <feTurbulence type="fractalNoise" baseFrequency="0.003 0.007" numOctaves="3" seed="8" result="noise">
+          <animate attributeName="baseFrequency"
+                   dur="25s"
+                   values="0.003 0.007; 0.008 0.004; 0.003 0.007"
+                   repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="noise"
+                           scale="120" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+
+      <!-- Soft vignette -->
+      <radialGradient id="vignette" cx="50%" cy="50%" r="65%">
+        <stop offset="70%" stop-color="rgba(0,0,0,0)"/>
+        <stop offset="100%" stop-color="rgba(0,0,0,0.4)"/>
+      </radialGradient>
+    </defs>
+
+    <!-- Flowing stripes -->
+    <rect x="0" y="0" width="200%" height="100%" fill="url(#stripes)" filter="url(#warp)">
+      <!-- This animates the pattern so it drifts sideways like waves -->
+      <animateTransform attributeName="transform"
+                        attributeType="XML"
+                        type="translate"
+                        from="0 0" to="-160 0"
+                        dur="10s"
+                        repeatCount="indefinite" />
+    </rect>
+
+    <!-- Vignette overlay -->
+    <rect x="0" y="0" width="100%" height="100%" fill="url(#vignette)"/>
+  </svg>
+</body>
+</html>
+
+
+
